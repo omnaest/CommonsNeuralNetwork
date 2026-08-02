@@ -37,7 +37,3 @@ The rest: XOR convergence (not linearly separable, so it can only be solved via 
 ```
 mvn clean install
 ```
-
-## See also
-
-[ExperimentalNeuralNetwork](https://bitbucket.org/omnaest/experimentalneuralnetwork) — an alternative implementation of these same domain contracts using an explicit neuron/synapse object graph. The two are verified **bit-identical**, which is what makes comparisons between them meaningful.
