@@ -6,7 +6,7 @@ Small feedforward neural network with backpropagation training (`org.omnaest.uti
 
 ```cmd
 mvn clean install
-mvn test -Dtest=NeuralNetworkTest#testLearnsExclusiveOr
+mvn test -Dtest=NeuralNetworkUtilsTest#testLearnsExclusiveOr
 ```
 
 ## Architecture
@@ -37,7 +37,7 @@ Training is online stochastic gradient descent: one forward pass and one backwar
 
 ## Tests
 
-- `NeuralNetworkTest` — XOR convergence (not linearly separable, so it can only be solved via a learned hidden representation), a linear-regression case with analytically known weights, topology/validation, seed reproducibility
+- `NeuralNetworkUtilsTest` — XOR convergence (not linearly separable, so it can only be solved via a learned hidden representation), a linear-regression case with analytically known weights, topology/validation, seed reproducibility
 - `BackpropagationGradientTest` — verifies every analytic weight and bias partial derivative against a central-difference of the loss. Extracts the analytic gradient by running `applyBackpropagation` with `learningRate = 1.0`, where `weightBefore - weightAfter` *is* the gradient — no gradient accessor is exposed for testing alone. Topology is deliberately asymmetric (3→4→5→2) so an index swap between the neuron and input dimension cannot hide.
 
 ## Dependencies
