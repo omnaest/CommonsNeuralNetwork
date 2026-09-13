@@ -12,6 +12,12 @@ import org.omnaest.utils.style.sourcetext.SourceGuard;
  * One {@code @Test} method per check, so a project opts out of one check by deleting one line. This class is
  * test-only structural-assertion infrastructure with no main-source counterpart, so it is exempt from the
  * test-mirror rule (P13) and legitimately sits at the context root.
+ * <p>
+ * <b>plan-216:</b> this project adopted {@code CommonsStyleSupport} when the rule surface was smaller and had
+ * drifted to 10 of the module's 16 enforced checks. Brought up to the full enforced surface here. Two checks are
+ * deliberately excluded, both documented measurement-only in their own source rather than shipped enforcement:
+ * {@code StyleProfile.internalPackagesAreAccessedOnlyFromTheirDirectParentPackage()} and
+ * {@code SourceGuard.noInternalReferencesFromOutsideTheirDirectParentPackage()}.
  */
 class PackageStructureTest
 {
@@ -71,6 +77,48 @@ class PackageStructureTest
     void noInternalTypeOnAPublicApiSurface()
     {
         PROFILE.noInternalTypeOnAPublicApiSurface()
+               .check(PROFILE.mainClasses());
+    }
+
+    @Test
+    void boundedContextsAreDiscovered()
+    {
+        PROFILE.boundedContextsAreDiscovered()
+               .check(PROFILE.mainClasses());
+    }
+
+    @Test
+    void noContextDependsOnAnAdapter()
+    {
+        PROFILE.noContextDependsOnAnAdapter()
+               .check(PROFILE.mainClasses());
+    }
+
+    @Test
+    void adapterWireTypesLiveInTheirChannelDomain()
+    {
+        PROFILE.adapterWireTypesLiveInTheirChannelDomain()
+               .check(PROFILE.mainClasses());
+    }
+
+    @Test
+    void sharedTypesAreUsedByAtLeastTwoContexts()
+    {
+        PROFILE.sharedTypesAreUsedByAtLeastTwoContexts()
+               .check(PROFILE.mainClasses());
+    }
+
+    @Test
+    void utilsPackagesDoNotReachIntoDomain()
+    {
+        PROFILE.utilsPackagesDoNotReachIntoDomain()
+               .check(PROFILE.mainClasses());
+    }
+
+    @Test
+    void utilsPackagesDoNotDuplicateCommonsTypes()
+    {
+        PROFILE.utilsPackagesDoNotDuplicateCommonsTypes()
                .check(PROFILE.mainClasses());
     }
 
