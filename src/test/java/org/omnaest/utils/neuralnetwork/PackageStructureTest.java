@@ -3,6 +3,7 @@ package org.omnaest.utils.neuralnetwork;
 import org.junit.jupiter.api.Test;
 import org.omnaest.utils.style.StyleProfile;
 import org.omnaest.utils.style.sourcetext.SourceGuard;
+import org.omnaest.utils.style.surface.CheckSurfaceGuard;
 
 /**
  * Mechanically enforces this workspace's Java package structure guideline (see
@@ -18,6 +19,11 @@ import org.omnaest.utils.style.sourcetext.SourceGuard;
  * deliberately excluded, both documented measurement-only in their own source rather than shipped enforcement:
  * {@code StyleProfile.internalPackagesAreAccessedOnlyFromTheirDirectParentPackage()} and
  * {@code SourceGuard.noInternalReferencesFromOutsideTheirDirectParentPackage()}.
+ * <p>
+ * <b>plan-225:</b> the enforced surface can grow (as it already did once, per the paragraph above), and nothing
+ * previously reported that drift while every build stayed green. {@link #everyEnforcedCheckIsCalled()} closes that
+ * gap: it derives the full enforced surface reflectively from {@code StyleProfile} and {@code SourceGuard} and
+ * fails, naming the missing check(s), whenever this class stops calling one of them.
  */
 class PackageStructureTest
 {
@@ -136,6 +142,13 @@ class PackageStructureTest
         SourceGuard.of()
                    .testsMirrorTheirSubjectPackage()
                    .verify();
+    }
+
+    @Test
+    void everyEnforcedCheckIsCalled()
+    {
+        CheckSurfaceGuard.of(PackageStructureTest.class)
+                         .verify();
     }
 
 }
